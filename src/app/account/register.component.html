@@ -1,38 +1,66 @@
-﻿<div class="card">
-    <h4 class="card-header">Register</h4>
+﻿
+
+
+<div class="card">
+    <h4 class="card-header">Sol Blazers PArent/Family Register</h4>
     <div class="card-body">
-        <form [formGroup]="form"  class="example-form" (ngSubmit)="onSubmit()">
+        <form [formGroup]="form"  fxFlex fxLayout="column" fxFlexAlign="center center"  (ngSubmit)="onSubmit()">
 
-
-           <mat-form-field class="example-full-width">
+          <div fxLayout="column" fxFlex fxFlexAlign="center center" fxLayoutGap="10px" >
+            <div fxLayout="row" fxLayoutGap="10px"  fxFlex>
+           <mat-form-field  fxFlex>
                <mat-label>Parent First Name</mat-label>
-                <input matInput type="text" name="firstName" formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+                <input matInput type="text" name="firstName" formControlName="firstName" required />
                 <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
                     <div *ngIf="f.firstName.errors.required">First Name is required</div>
                 </div>
             </mat-form-field>
-             <mat-form-field class="example-full-width">
+             <mat-form-field fxFlex>
                <mat-label>Parent Last Name</mat-label>
-                <input matInput type="text" name="lastName" formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
-                <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
-                    <div *ngIf="f.lastName.errors.required">First Name is required</div>
-                </div>
+                <input matInput type="text" name="lastName" formControlName="lastName" required />
+
             </mat-form-field>
-            <mat-form-field class="example-full-width">
+          </div>
+
+          <div fxLayout="row wrap" fxLayoutGap="10px"  fxFlex>
+            <mat-form-field   fxFlex="60">
                 <mat-label>Email</mat-label>
-                  <input matInput type="email" name="email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-                  <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                      <div *ngIf="f.email.errors.required">First Name is required</div>
-                  </div>
+                  <input matInput type="email" name="user_email" formControlName="user_email" required />
+
               </mat-form-field>
 
+              <mat-form-field  fxFlex>
+                <mat-label>Phone Number</mat-label>
+                  <input matInput type="text" name="phone_number" formControlName="phone_number" required />
 
-              <mat-form-field appearance="fill">
-                <mat-label>Phone number</mat-label>
-                <example-tel-input formControlName="tel" required></example-tel-input>
-                <mat-icon matSuffix>phone</mat-icon>
-                <mat-hint>Include area code</mat-hint>
               </mat-form-field>
+            </div>
+              <mat-form-field  fxFlex="80">
+                <mat-label >Home Address</mat-label>
+                  <input matInput type="text" name="street_address_1" formControlName="street_address_1" required />
+
+              </mat-form-field>
+              <mat-form-field >
+                <mat-label>City</mat-label>
+                  <input matInput type="text" name="city" formControlName="city" required />
+
+              </mat-form-field>
+              <mat-form-field >
+                <mat-label>State</mat-label>
+                <mat-select name="state" formControlName="state" required  >
+                  <mat-option *ngFor="let state of USStates" [value]="state">{{state}}</mat-option>
+                </mat-select>
+
+
+              </mat-form-field>
+              <mat-form-field >
+                <mat-label>ZIP Code</mat-label>
+
+                  <input matInput type="text" name="zip" formControlName="zip" required />
+
+              </mat-form-field>
+
+            </div>
 
 
        <!--      <div class="form-group">
@@ -43,8 +71,59 @@
                     <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
                 </div>
             </div> -->
-            <div class="form-group">
-                <button [disabled]="loading" class="btn btn-primary">
+
+
+
+            <div fxFlex fxLayout="column" fxLayoutAlign="center center"  fxLayoutGap="10px" style="margin-top:30px;">
+
+
+
+
+                <div *ngIf="playersArray[0]" fxFlexFill fxLayout="column" fxLayoutGap="10px">
+
+                  <mat-card *ngFor="let player of playersArray;  index as i; " fxFlex>
+                    <mat-card-header>
+                        <mat-card-title>Player {{i+1}}</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content fxLayout="row wrap" fxLayoutGap="5px">
+
+
+                      <mat-form-field  fxFlex=49>
+                        <mat-label>Player {{i+1}} First Name</mat-label>
+                         <input matInput type="text" name="firstName" required />
+                     </mat-form-field>
+                      <mat-form-field  fxFlex=49>
+                        <mat-label>Player {{i+1}} Last Name</mat-label>
+                         <input matInput type="text" name="lastName" required />
+                     </mat-form-field>
+
+                     <mat-form-field  fxFlex=100>
+                      <mat-label>US Lacrosse ID</mat-label>
+                       <input matInput type="text" name="lacross_ie" required />
+                       <mat-hint>Don't have one? Register here</mat-hint>
+                   </mat-form-field>
+
+                    </mat-card-content>
+
+
+                  </mat-card>
+
+                </div>
+
+                <div fxFlex fxLayout="column">
+                  <div *ngIf="!playersArray[0]">
+                      <p> As part of your registration, please add all Lacrosse players you are registering. </p>
+                  </div>
+
+                  <a mat-raised-button (click)="addLacrossePlayer()"> Add Lacrosse Player </a>
+                </div>
+
+
+            </div>
+
+
+            <div class="form-group" style="margin-top:20px;">
+                <button [disabled]="loading || !form.valid" class="btn btn-primary">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                     Register
                 </button>
