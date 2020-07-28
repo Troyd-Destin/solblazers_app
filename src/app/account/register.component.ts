@@ -1,15 +1,32 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup,FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {ErrorStateMatcher} from '@angular/material/core';
 import { first } from 'rxjs/operators';
 
 import { AccountService, AlertService } from '@app/_services';
+
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({ templateUrl: 'register.component.html' })
 export class RegisterComponent implements OnInit {
     form: FormGroup;
     loading = false;
     submitted = false;
+
+
+    childMOdel = {
+
+    }
+
+    children = [];
 
     constructor(
         private formBuilder: FormBuilder,
@@ -23,7 +40,7 @@ export class RegisterComponent implements OnInit {
         this.form = this.formBuilder.group({
             firstName: ['', Validators.required],
             lastName: ['', Validators.required],
-            username: ['', Validators.required],
+            emaill: ['', Validators.required],
             password: ['', [Validators.required, Validators.minLength(6)]]
         });
     }
