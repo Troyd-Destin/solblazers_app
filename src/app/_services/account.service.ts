@@ -45,7 +45,12 @@ export class AccountService {
     }
 
     register(user: User) {
-        return this.http.post(`${environment.apiUrl}/users/register`, user);
+
+      const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
+
+
+        return this.http.post(`${environment.apiUrl}wp-json/wp/v2/users/register`, user, { headers });
     }
 
     getAll() {
