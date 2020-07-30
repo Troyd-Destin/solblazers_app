@@ -13,7 +13,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button'
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatCardModule} from '@angular/material/card';
-
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
     imports: [
@@ -27,7 +27,8 @@ import {MatCardModule} from '@angular/material/card';
         MatSelectModule,
         FlexLayoutModule,
         MatButtonModule,
-        MatCardModule
+        MatCardModule,
+        MatTabsModule
     ],
     declarations: [
         LayoutComponent,

@@ -21,7 +21,12 @@ export class AccountService {
     }
 
     public get userValue(): User {
+      console.log(this.userSubject.value);
         return this.userSubject.value;
+    }
+
+    public setUserValues(obj){
+      this.userSubject.next(obj);
     }
 
     login(email, password) {
@@ -29,11 +34,11 @@ export class AccountService {
 
 
       return this.http.post<User>(`${environment.apiUrl}/wp-json/jwt-auth/v1/token `, {'username': email, 'password': password})
-            .pipe(map(user => {
+            .pipe(map((data:any) => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('user', JSON.stringify(user));
-                this.userSubject.next(user);
-                return user;
+                localStorage.setItem('user', JSON.stringify(data.user));
+                this.userSubject.next(data.user);
+                return data.user;
             }));
     }
 
@@ -48,8 +53,6 @@ export class AccountService {
 
       const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
-
-
         return this.http.post(`${environment.apiUrl}wp-json/wp/v2/users/register`, user, { headers });
     }
 
@@ -65,7 +68,7 @@ export class AccountService {
         return this.http.put(`${environment.apiUrl}/users/${id}`, params)
             .pipe(map(x => {
                 // update stored user if the logged in user updated their own record
-                if (id == this.userValue.id) {
+                if (id == this.userValue.data.id) {
                     // update local storage
                     const user = { ...this.userValue, ...params };
                     localStorage.setItem('user', JSON.stringify(user));
@@ -81,7 +84,7 @@ export class AccountService {
         return this.http.delete(`${environment.apiUrl}/users/${id}`)
             .pipe(map(x => {
                 // auto logout if the logged in user deleted their own record
-                if (id == this.userValue.id) {
+                if (id == this.userValue.ID) {
                     this.logout();
                 }
                 return x;

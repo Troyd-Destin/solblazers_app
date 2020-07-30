@@ -34,28 +34,26 @@
               </mat-form-field>
             </div>
 
-            <div>
+            <div  fxLayout="row wrap" fxLayoutGap="10px"  fxFlex>
 
-              <mat-form-field >
-                <input matInput  placeholder="New password" [type]="pw_hide ? 'password'
-                  : 'text'" formControl="password" required>
-                <mat-icon matSuffix (click)="pw_hide = !pw_hide">{{pw_hide ? 'visibility' :
-                  'visibility_off'}}</mat-icon>
-                <mat-error *ngIf="password.hasError('required')">
+              <mat-form-field  fxFlex>
+                <mat-label>Password</mat-label>
+                  <input matInput type="password" name="password" formControlName="password" required />
+                  <mat-error *ngIf="form.hasError('required', 'password')">
                     Please enter your newpassword
-                 </mat-error>
-              </mat-form-field>
-
-              <mat-form-field >
-                 <input matInput  placeholder="Confirm password" [type]="pw_hide ?
-                      'password' : 'text'" formControl="confirmPassword"
-                            required>
-                 <mat-icon matSuffix (click)="pw_hide = !pw_hide">{{pw_hide ? 'visibility' :
-                        'visibility_off'}}</mat-icon>
-                 <mat-error *ngIf="confirmPassword.hasError('required')">
-                  Confirm your password
                   </mat-error>
               </mat-form-field>
+
+
+              <mat-form-field  fxFlex>
+                <mat-label>Confirm Password</mat-label>
+                  <input matInput type="password" name="confirmPassword" formControlName="confirmPassword" required [errorStateMatcher]="matcher">
+                  <mat-error *ngIf="form.hasError('notSame')">
+                  Passwords do not match
+                </mat-error>
+              </mat-form-field>
+
+
             </div>
               <mat-form-field  fxFlex="80">
                 <mat-label >Home Address</mat-label>
@@ -84,15 +82,6 @@
 
             </div>
 
-
-       <!--      <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                    <div *ngIf="f.password.errors.required">Password is required</div>
-                    <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
-                </div>
-            </div> -->
 
 
 <!--

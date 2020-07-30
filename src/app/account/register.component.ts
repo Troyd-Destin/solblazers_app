@@ -27,30 +27,18 @@ interface Player {
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    const invalidCtrl = !!(control && control.invalid && control.parent.dirty);
+    const invalidParent = !!(control && control.parent && control.parent.invalid && control.parent.dirty);
+
+    return (invalidCtrl || invalidParent);
   }
 }
 
 @Component({ templateUrl: 'register.component.html' })
 export class RegisterComponent implements OnInit {
-    form = new FormGroup({
-      first_name: new FormControl('', [Validators.required]),
-      last_name: new FormControl('', [Validators.required]),
-      email: new FormControl('', [
-        Validators.required,
-        Validators.email,
-      ]),
-      password: new FormControl('',[]),
-      confirmPassword: new FormControl('',[]),
-      phone_number: new FormControl('', [Validators.required]),
-      street_address_1: new FormControl('', [Validators.required]),
-      city: new FormControl('', [Validators.required]),
-      state: new FormControl('', [Validators.required]),
-      zip: new FormControl('', [Validators.required]),
 
-   });
-
+    form: FormGroup;
+    matcher = new MyErrorStateMatcher();
     pw_hide = true;
     loading = false;
     submitted = false;
@@ -67,7 +55,26 @@ export class RegisterComponent implements OnInit {
         private accountService: AccountService,
         private alertService: AlertService,
         private http: HttpClient,
-    ) { }
+    ) {
+
+      this.form = this.formBuilder.group({
+        first_name: ['', [Validators.required]],
+        last_name: ['', [Validators.required]],
+        email: ['', [
+          Validators.required,
+          Validators.email,
+        ]],
+        password: ['', [Validators.required]],
+        confirmPassword: [''],
+        phone_number: ['', [Validators.required]],
+        street_address_1: ['', [Validators.required]],
+        city: ['', [Validators.required]],
+        state: ['', [Validators.required]],
+        zip: ['', [Validators.required]],
+
+     }, { validator: this.checkPasswords });
+
+     }
 
     ngOnInit() {
 
@@ -116,14 +123,21 @@ export class RegisterComponent implements OnInit {
 
 
       this.loading = true;
-        this.accountService.register(this.form.getRawValue()).subscribe((r) => {
+        this.accountService.register(this.form.getRawValue()).subscribe((r:any) => {
           this.loading = false;
             console.log(r);
+            this.accountService.setUserValues(r.user);
 
             //navigate to next screen
+            this.router.navigate(['account']);
 
+        }, (e) => {
+          console.log(e);
+          this.loading = false;
 
-        }, (e) => { console.log(e);  this.loading = false; });
+          this.alertService.error(e);
+
+        });
     //    this.loading = true;
        /*  this.accountService.register(this.form.value)
             .pipe(first())
@@ -136,5 +150,13 @@ export class RegisterComponent implements OnInit {
                     this.alertService.error(error);
                     this.loading = false;
                 }); */
+    }
+
+
+    checkPasswords(group: FormGroup) { // here we have the 'passwords' group
+      let pass = group.get('password').value;
+      let confirmPass = group.get('confirmPassword').value;
+
+      return pass === confirmPass ? null : { notSame: true }
     }
 }
