@@ -20,6 +20,7 @@
     city: string;
     token: string;
     }
+  players = [];
   filter ;
   roles:[];
 }

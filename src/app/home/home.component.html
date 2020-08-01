@@ -1,7 +1,114 @@
-﻿<div class="p-4">
+﻿
+<div fxLayout="column" fxFill fxLayoutAlign="start center" fxLayoutGap="10px" >
+  <!-- <div fxFlex>
+    <p>You're logged in with Angular 9!!</p>
+  </div>
+  <h1 fxFlex>Hi {{user.data.first_name || user.data.display_name}}!</h1> -->
+
+  <!-- <h2> Actions </h2> -->
+
+  <div fxLayout="row wrap" fxLayoutGap="10px">
+
+
+    <mat-card class="example-card" fxFlex>
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Donate</mat-card-title>
+        <mat-card-subtitle>Support SolBlazers!</mat-card-subtitle>
+      </mat-card-header>
+
+
+      <mat-card-content style="padding:20px 0px;">
+
+        <a  href="https://solblazers.org/donate/" target="_blank">
+          <img mat-card-image src="assets/purple_donate_grunge.png" alt="Photo of a Shiba Inu">
+        </a>
+    <!--     <p>
+          Sol Blazers Lacrosse, Inc., is a Florida Nonprofit Corporation with tax-exempt status as a 501(c)3 public charity with the Internal Revenue Service. Any gift is tax deductible as allowed by law.
+Sol Blazers Lacrosse, Inc. is registered with the State of Florida to solicit contributions, Registration #CH58682. A COPY OF THE OFFICIAL REGISTRATION AND FINANCIAL INFORMATION MAY BE OBTAINED FROM THE DIVISION OF CONSUMER SERVICES BY CALLING TOLL-FREE (800-435-7352) WITHIN THE STATE. REGISTRATION DOES NOT IMPLY ENDORSEMENT, APPROVAL, OR RECOMMENDATION BY THE STATE.
+
+        </p> -->
+      </mat-card-content>
+    <!--   <mat-card-actions>
+        <a href="https://solblazers.org/donate/" target="_blank" mat-button> Donate Now </a>
+      </mat-card-actions> -->
+    </mat-card>
+
+
+    <mat-card class="example-card" fxFlex>
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Players</mat-card-title>
+        <mat-card-subtitle>A list of players associated with your account.</mat-card-subtitle>
+      </mat-card-header>
+
+
+
+      <mat-card-content fxLayout="column" fxLayoutAlign="center center">
+        <div *ngIf="user.players">
+
+        </div>
+        <div *ngIf="!user.players">
+          <button mat-raised-button routerLink="/player/new" routerLinkActive="active" color="primary">Register Player </button>
+      </div>
+
+
+
+      </mat-card-content>
+    <!--   <mat-card-actions>
+        <button mat-button>Add Player</button>
+      </mat-card-actions> -->
+    </mat-card>
+
+
+
+    <mat-card class="event-card" fxFlex>
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Events</mat-card-title>
+        <mat-card-subtitle>What events are active right now?</mat-card-subtitle>
+      </mat-card-header>
+     <!--  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+      <mat-card-content>
+
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Type</th>
+              <th scope="col"> ? </th>
+            </tr>
+          </thead>
+          <tbody>
+
+
+
+            <tr *ngFor="let event of events">
+              <th scope="row">{{event.name}}</th>
+              <td>{{event.type}}</td>
+              <td> <mat-icon  matTooltip="You have 2 players registered in this event.">how_to_reg </mat-icon> </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+      </mat-card-content>
+     <!--  <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions> -->
+    </mat-card>
+
+  </div>
+
+</div>
+
+<!-- <div class="p-4">
     <div class="container">
-        <h1>Hi {{user.data.first_name || user.data.display_name}}!</h1>
-        <p>You're logged in with Angular 9!!</p>
-      <!--   <p><a routerLink="/users">Manage Users</a></p> -->
+  <p><a routerLink="/users">Manage Users</a></p>
+
+
     </div>
 </div>
+ -->

@@ -1,0 +1,93 @@
+
+<div fxLayout="column" fxFill fxLayoutAlign="start center" fxLayoutGap="10px" >
+
+<mat-card fxFlex style="max-width: 800px;" fxLayout="column" >
+  <mat-card-content fxLayout="column" fxLayoutGap="5px" fxFlex>
+
+    <h4> Personal Information </h4>
+    <div fxLayoutGap="5px">
+      <mat-form-field  fxFlex=49>
+        <mat-label>Player First Name</mat-label>
+        <input matInput type="text" name="firstName" required />
+    </mat-form-field>
+      <mat-form-field  fxFlex=49>
+        <mat-label>Player Last Name</mat-label>
+        <input matInput type="text" name="lastName" required />
+    </mat-form-field>
+  </div>
+
+
+
+  <div fxLayoutGap="5px">
+    <mat-form-field  fxFlex=49>
+      <mat-label>Current School</mat-label>
+      <input matInput type="text" name="current_school" required />
+  </mat-form-field>
+    <mat-form-field  fxFlex=49>
+      <mat-label>School Grad Year</mat-label>
+      <input matInput type="number" name="high_school_grad_year" required />
+  </mat-form-field>
+
+</div>
+   <mat-form-field color="accent" appearance="fill">
+    <mat-label>Date of Birth </mat-label>
+    <input matInput name="dob" [matDatepicker]="picker2">
+    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+    <mat-datepicker #picker2 color="primary"></mat-datepicker>
+  </mat-form-field>
+
+  <mat-checkbox class="example-margin" [(ngModel)]="player.diff_address">Player has different address then parent/family?</mat-checkbox>
+  <div *ngIf="player.diff_address">
+
+      Test
+  </div>
+
+  <hr>
+  <h4> Lacrosse Information </h4>
+
+    <mat-form-field  fxFlex=49>
+      <mat-label>Jersey Number </mat-label>
+      <input matInput type="text" name="jersey_number" required />
+      <mat-hint>Leave blank if uknown.</mat-hint>
+  </mat-form-field>
+   <mat-form-field  fxFlex=100>
+    <mat-label>US Lacrosse ID</mat-label>
+     <input matInput type="text" name="lacross_id" required />
+     <mat-hint>Don't have one? Register here</mat-hint>
+  </mat-form-field>
+
+  <hr>
+  <h4> Medical </h4>
+
+  <mat-form-field  fxFlex>
+    <mat-label>Legal Name of Primary Insured</mat-label>
+    <input matInput type="text" name="primary_insured" required />
+</mat-form-field>
+  <mat-form-field  fxFlex>
+    <mat-label>Health Insurance Company</mat-label>
+    <input matInput type="text" name="health_insurance_company" required />
+</mat-form-field>
+
+  <mat-form-field  fxFlex=100>
+    <mat-label>Medical Needs</mat-label>
+     <textarea matInput name="medical_needs" required ></textarea>
+     <mat-hint>Any specific medical needs we should be made aware of?</mat-hint>
+  </mat-form-field>
+
+  </mat-card-content>
+
+<mat-card-actions fxLayoutAlign="end center">
+    <button mat-button color="primary" *ngIf="newPlayer">Register</button>
+    <button mat-button color="primary" *ngIf="!newPlayer">Update</button>
+</mat-card-actions>
+</mat-card>
+
+
+
+<mat-card id="registerEventCard" *ngIf="!newPlayer" fxFlex>
+  <mat-card-content fxLayout="row wrap" fxLayoutGap="5px">
+      <h2>  Available Events </h2>
+  </mat-card-content>
+</mat-card>
+
+</div>

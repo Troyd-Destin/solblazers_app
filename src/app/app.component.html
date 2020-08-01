@@ -1,16 +1,25 @@
 ﻿<!-- nav -->
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="user">
+<!-- <nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="user">
     <div class="navbar-nav">
         <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
         <a class="nav-item nav-link" routerLink="/users" routerLinkActive="active">Users</a>
         <a class="nav-item nav-link" (click)="logout()">Logout</a>
     </div>
-</nav>
+</nav> -->
 
 <!-- main app container -->
-<div class="app-container" [ngClass]="{ 'bg-light': user }">
+<div class="app-container" fxFill fxLayout="column" fxLayoutGap="10px" [ngClass]="{ 'bg-light': user }">
+    <div  class="banner_thing"   fxFlex fxLayoutAlign="center center" >
+      <img  src="assets/logo.png"  />
+    </div>
     <alert></alert>
-    <router-outlet></router-outlet>
+    <router-outlet style="margin-top:10px;"  ></router-outlet>
+
+    <div fxLayout="row" fxLayoutAlign="center center">
+
+      <button mat-raised-button color="basic" (click)="logout()"> Logout </button>
+
+    </div>
 </div>
 
 <!-- credits -->

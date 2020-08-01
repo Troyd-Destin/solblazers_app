@@ -1,8 +1,8 @@
 ﻿import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // used to create fake backend
 
 import { AppRoutingModule } from './app-routing.module';
@@ -10,8 +10,23 @@ import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { AppComponent } from './app.component';
 import { AlertComponent } from './_components';
 import { HomeComponent } from './home';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-;
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
+import {MatInputModule} from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSelectModule} from '@angular/material/select';
+import {MatButtonModule} from '@angular/material/button'
+import { FlexLayoutModule } from '@angular/flex-layout';
+import {MatCardModule} from '@angular/material/card';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { PlayerComponent } from './player/player.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 @NgModule({
     imports: [
@@ -20,12 +35,27 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
         HttpClientModule,
         AppRoutingModule,
         BrowserAnimationsModule,
+        MatIconModule,
+        MatInputModule,
+        MatFormFieldModule,
+        FormsModule,
+        MatSelectModule,
+        FlexLayoutModule,
+        MatButtonModule,
+        MatCardModule,
+        MatTabsModule,
+        MatTooltipModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatCheckboxModule
 
     ],
     declarations: [
         AppComponent,
         AlertComponent,
         HomeComponent
+,
+        PlayerComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
