@@ -58,10 +58,20 @@ export class AccountService {
     }
 
     addPlayer(player: Player){
-
+        //console.log(player);
         const headers = new HttpHeaders()
         .set('Content-Type', 'application/json');
-        return this.http.post(`${environment.apiUrl}wp-json/wp/v2/player`, {player, user: this.user}, { headers });
+        console.log('add player triger');
+        const payload = {player: player, user:  this.userValue };
+        return this.http.post(`${environment.apiUrl}wp-json/jwt-auth/v1/player`, payload, { headers });
+
+    }
+
+    addPlayerToPlayerArray(player: Player){
+
+         const user = this.userValue; 
+         user.data.players.push(player);
+        this.userSubject.next(user);
 
     }
 

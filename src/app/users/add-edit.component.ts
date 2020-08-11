@@ -39,13 +39,13 @@ export class AddEditComponent implements OnInit {
         });
 
         if (!this.isAddMode) {
-            this.accountService.getById(this.id)
+            /* this.accountService.getById(this.id)
                 .pipe(first())
                 .subscribe(x => {
                     this.f.firstName.setValue(x.data.first_name);
                     this.f.lastName.setValue(x.data.last_name);
                     this.f.username.setValue(x.data.username);
-                });
+                }); */
         }
     }
 

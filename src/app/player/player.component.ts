@@ -6,7 +6,9 @@ import {ErrorStateMatcher} from '@angular/material/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AccountService, AlertService } from '@app/_services';
 
-import { Player } from '@app/_models';
+import { environment } from '@environments/environment';
+
+import { Player, User } from '@app/_models';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -37,6 +39,8 @@ export class PlayerComponent implements OnInit {
   newPlayer = false;
   form: FormGroup;
   matcher = new MyErrorStateMatcher();
+  loadingIcon = false;
+  user: User;
 
   USStates = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Federated States of Micronesia', 'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Marshall Islands', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Northern Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
 
@@ -79,7 +83,28 @@ export class PlayerComponent implements OnInit {
     {
 
         // http request that fetches the player using the ID
-        this.player.first_name = 'Tyson';
+        //this.player.first_name = 'Tyson';
+
+        //check if in user array user
+
+        this.user = this.account.userValue; 
+        const filteredPlayers = this.user.data.players.filter((el)=>{
+          return this.id == el.id;
+        })
+
+        if(!filteredPlayers[0])
+        {
+        //if not in user object, fetch from database.
+        this.http.get(`${environment.apiUrl}wp-json/jwt-auth/v1/player/${this.id}`).subscribe((r:Player)=>{
+          this.player = r;
+          if(typeof this.player.diff_address !== 'boolean' && this.player.diff_address === "0" ){ this.player.diff_address = false; }
+        });
+        }
+        else{
+            
+            this.player = filteredPlayers[0];
+            if(typeof this.player.diff_address !== 'boolean' && this.player.diff_address === "0" ){ this.player.diff_address = false; }
+        }
 
 
     }
@@ -107,10 +132,22 @@ export class PlayerComponent implements OnInit {
     //loop through properties, and make sure they have a value, or else throw error
 
 
+    this.loadingIcon = true;
+    this.account.addPlayer(this.player).subscribe((r:any)=>{ 
+        console.log(r);
+        this.account.addPlayerToPlayerArray(r);
+        this.newPlayer = false;
+        this.loadingIcon = false;
 
-    //this.account.addPlayer(this.player).subscribe((r)=>{ });
+        //update url 
 
-    console.log(this.player);
+        this.alertService.success('Player registration successful. ', { keepAfterRouteChange: true });
+       
+
+    },
+    (e)=>{ console.log(e);   this.alertService.error('Something went wrong, contact us.', { keepAfterRouteChange: true });});
+
+    
 
   }
 

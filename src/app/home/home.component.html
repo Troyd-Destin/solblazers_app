@@ -45,12 +45,33 @@ Sol Blazers Lacrosse, Inc. is registered with the State of Florida to solicit co
 
 
       <mat-card-content fxLayout="column" fxLayoutAlign="center center">
-        <div *ngIf="user.players">
-
-        </div>
-        <div *ngIf="!user.players">
-          <button mat-raised-button routerLink="/player/new" routerLinkActive="active" color="primary">Register Player </button>
-      </div>
+        <div *ngIf="user.data.players" fxFill >
+          <table class="table" >
+            <thead>
+              <tr>
+                <th scope="col" style="width:70%">Name</th>
+                <th scope="col"> Actions </th>
+              </tr>
+            </thead>
+            <tbody>
+  
+  
+  
+              <tr *ngFor="let player of user.data.players" class="clickable" routerLink="/player/{{player.id}}">
+                <td >{{player.first_name}} {{player.last_name}}</td>
+               
+                <td> <mat-icon  matTooltip="Edit this player">edit</mat-icon> </td>
+              </tr>
+  
+            </tbody>
+          </table>
+  
+        </div>    
+        <div *ngIf="!user.data.players" >
+            <p> No players have been registered. </p>
+        </div>   
+        <button mat-raised-button routerLink="/player/new" routerLinkActive="active" color="primary">Register Player </button>
+      
 
 
 
@@ -87,7 +108,7 @@ Sol Blazers Lacrosse, Inc. is registered with the State of Florida to solicit co
             <tr *ngFor="let event of events">
               <th scope="row">{{event.name}}</th>
               <td>{{event.type}}</td>
-              <td> <mat-icon  matTooltip="You have 2 players registered in this event.">how_to_reg </mat-icon> </td>
+              <td> <mat-icon  matTooltip="You have x players registered in this event.">how_to_reg </mat-icon> </td>
             </tr>
 
           </tbody>

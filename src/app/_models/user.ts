@@ -1,4 +1,7 @@
-﻿export class User {
+﻿
+import { Player } from '@app/_models';
+
+export class User {
   ID;
   allcaps: {
     read: boolean;
@@ -20,8 +23,9 @@
     state: string;
     city: string;
     token: string;
+    players: Player[];
     }
-  players = [];
+ 
   filter ;
   roles:[];
 }

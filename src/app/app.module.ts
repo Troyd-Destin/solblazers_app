@@ -26,6 +26,7 @@ import { PlayerComponent } from './player/player.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         MatTooltipModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatProgressSpinnerModule
 
     ],
     declarations: [

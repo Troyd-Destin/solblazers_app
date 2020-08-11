@@ -104,9 +104,12 @@
 
   </mat-card-content>
 
-<mat-card-actions fxLayoutAlign="end center">
+<mat-card-actions fxLayoutAlign="end center" [hidden]="loadingIcon">
     <button mat-button color="primary" *ngIf="newPlayer" (click)='register_player()'>Register</button>
     <button mat-button color="primary" *ngIf="!newPlayer">Update</button>
+</mat-card-actions>
+<mat-card-actions fxLayoutAlign="center center" [hidden]="!loadingIcon">
+  <mat-spinner></mat-spinner>
 </mat-card-actions>
 </mat-card>
 
