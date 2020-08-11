@@ -1,8 +1,8 @@
 export class  Player {
-  first_name: string;
-  last_name: string;
-  lacrosse_id: number;
-  birthdate: Date;
+  first_name: string; //required
+  last_name: string; //required
+  lacrosse_id: string; //required
+  birthdate: Date;  //required
   high_school_grad_year: number;
   jersey_number: number;
   current_school: string;

@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { User } from '@app/_models';
+import { Player } from '@app/_models';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
@@ -22,7 +23,7 @@ export class AccountService {
 
     public get userValue(): User {
       console.log(this.userSubject.value);
-        return this.userSubject.value;
+      return this.userSubject.value;
     }
 
     public setUserValues(obj){
@@ -33,8 +34,8 @@ export class AccountService {
 
 
 
-      return this.http.post<User>(`${environment.apiUrl}/wp-json/jwt-auth/v1/token `, {'username': email, 'password': password})
-            .pipe(map((data:any) => {
+      return this.http.post<User>(`${environment.apiUrl}/wp-json/jwt-auth/v1/token `, {username: email, password: password})
+            .pipe(map((data: any) => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(data.user));
                 this.userSubject.next(data.user);
@@ -53,7 +54,15 @@ export class AccountService {
 
       const headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
-        return this.http.post(`${environment.apiUrl}wp-json/wp/v2/users/register`, user, { headers });
+      return this.http.post(`${environment.apiUrl}wp-json/wp/v2/users/register`, user, { headers });
+    }
+
+    addPlayer(player: Player){
+
+        const headers = new HttpHeaders()
+        .set('Content-Type', 'application/json');
+        return this.http.post(`${environment.apiUrl}wp-json/wp/v2/player`, {player, user: this.user}, { headers });
+
     }
 
     getAll() {

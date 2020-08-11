@@ -17,6 +17,7 @@
     street_address_1: string;
     zip: string;
     phone_number: string;
+    state: string;
     city: string;
     token: string;
     }
