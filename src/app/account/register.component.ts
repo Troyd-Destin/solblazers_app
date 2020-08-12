@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
       this.form = this.formBuilder.group({
         first_name: ['', [Validators.required]],
         last_name: ['', [Validators.required]],
-        email: ['', [
+        user_email: ['', [
           Validators.required,
           Validators.email,
         ]],
@@ -91,7 +91,7 @@ export class RegisterComponent implements OnInit {
         }
 
         const requestObj = {
-          email: 'trboyce@ualberta.ca',
+          user_email: 'trboyce@ualberta.ca',
           phone_number: '',
           first_name: '',
           last_name: '',
@@ -116,7 +116,7 @@ export class RegisterComponent implements OnInit {
             this.accountService.setUserValues(r.user);
 
             //navigate to next screen
-            this.router.navigate(['account']);
+            this.router.navigate(['']);
 
         }, (e) => {
           console.log(e);

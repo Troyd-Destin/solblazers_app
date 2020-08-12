@@ -61,18 +61,30 @@ export class AccountService {
         //console.log(player);
         const headers = new HttpHeaders()
         .set('Content-Type', 'application/json');
-        console.log('add player triger');
-        const payload = {player: player, user:  this.userValue };
+       // console.log('add player triger');
+        const user = this.userValue;
+        //console.log(user);
+        player.user_id = user.ID;
+        const payload = {'player': player, };
         return this.http.post(`${environment.apiUrl}wp-json/jwt-auth/v1/player`, payload, { headers });
 
     }
 
     addPlayerToPlayerArray(player: Player){
 
-         const user = this.userValue; 
+         const user = this.userValue;
          user.data.players.push(player);
-        this.userSubject.next(user);
+         localStorage.setItem('user', JSON.stringify(user));
+         this.userSubject.next(user);
 
+    }
+
+    addPlayerEvent(event:any)
+    {
+      const user = this.userValue;
+      user.data.player_events.push(event);
+      localStorage.setItem('user', JSON.stringify(user));
+      this.userSubject.next(user);
     }
 
     getAll() {

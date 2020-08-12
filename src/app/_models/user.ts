@@ -15,6 +15,7 @@ export class User {
     display_name: string;
     username: string;
     email: string;
+    user_email: string;
     first_name: string;
     last_name: string;
     street_address_1: string;
@@ -24,8 +25,9 @@ export class User {
     city: string;
     token: string;
     players: Player[];
+    player_events: string[];
     }
- 
+
   filter ;
   roles:[];
 }

@@ -15,7 +15,7 @@
     <alert></alert>
     <router-outlet style="margin-top:10px;"  ></router-outlet>
 
-    <div fxLayout="row" fxLayoutAlign="center center">
+    <div fxLayout="row" fxLayoutAlign="center center" *ngIf="user">
 
       <button mat-raised-button color="basic" (click)="logout()"> Logout </button>
 

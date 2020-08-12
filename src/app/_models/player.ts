@@ -1,5 +1,6 @@
 export class  Player {
   id: number;
+  user_id: string;
   first_name: string; //required
   last_name: string; //required
   lacrosse_id: string; //required

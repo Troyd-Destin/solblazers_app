@@ -4,7 +4,8 @@ import { FormBuilder, FormGroup, FormControl, FormGroupDirective, NgForm, Valida
 import {ActivatedRoute} from '@angular/router';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AccountService, AlertService } from '@app/_services';
+import { AccountService, AlertService, } from '@app/_services';
+import { EventsService } from '@app/_services/events.service';
 
 import { environment } from '@environments/environment';
 
@@ -28,11 +29,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class PlayerComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute,
-              private formBuilder: FormBuilder,
-              private alertService: AlertService,
-              private http: HttpClient,
-              private account: AccountService ) { }
 
   id;
   player: Player = new Player;
@@ -41,8 +37,23 @@ export class PlayerComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
   loadingIcon = false;
   user: User;
-
+  events;
+  hideEventTable = false;
+  eventRegisterLoadingCircle = false;
   USStates = ['Alabama', 'Alaska', 'American Samoa', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'District of Columbia', 'Federated States of Micronesia', 'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Marshall Islands', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Northern Mariana Islands', 'Ohio', 'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+
+
+  constructor(private route: ActivatedRoute,
+              private formBuilder: FormBuilder,
+              private alertService: AlertService,
+              private http: HttpClient,
+              private account: AccountService,
+              private eventsService: EventsService ) {
+
+
+                this.eventsService.fetchEvents().subscribe();
+         this.eventsService.events.subscribe(x => this.events = x);
+               }
 
 
   ngOnInit(): void {
@@ -51,6 +62,8 @@ export class PlayerComponent implements OnInit {
       this.fetchPlayerInfo();
     });
 
+    this.user = this.account.userValue;
+    console.log(this.user);
 
     this.form = this.formBuilder.group({
       first_name: ['', [Validators.required]],
@@ -87,7 +100,7 @@ export class PlayerComponent implements OnInit {
 
         //check if in user array user
 
-        this.user = this.account.userValue; 
+        this.user = this.account.userValue;
         const filteredPlayers = this.user.data.players.filter((el)=>{
           return this.id == el.id;
         })
@@ -101,7 +114,7 @@ export class PlayerComponent implements OnInit {
         });
         }
         else{
-            
+
             this.player = filteredPlayers[0];
             if(typeof this.player.diff_address !== 'boolean' && this.player.diff_address === "0" ){ this.player.diff_address = false; }
         }
@@ -118,8 +131,8 @@ export class PlayerComponent implements OnInit {
     if(!this.player.diff_address)
     {
         console.log('test');
-        //set fields = to account address. 
-        let user = this.account.userValue;        
+        //set fields = to account address.
+        let user = this.account.userValue;
         this.player.zip = user.data.zip;
         this.player.city = user.data.city;
         this.player.state = user.data.state;
@@ -133,24 +146,60 @@ export class PlayerComponent implements OnInit {
 
 
     this.loadingIcon = true;
-    this.account.addPlayer(this.player).subscribe((r:any)=>{ 
+    this.account.addPlayer(this.player).subscribe((r:any)=>{
         console.log(r);
         this.account.addPlayerToPlayerArray(r);
         this.newPlayer = false;
         this.loadingIcon = false;
 
-        //update url 
+        //update url
 
         this.alertService.success('Player registration successful. ', { keepAfterRouteChange: true });
-       
+
 
     },
-    (e)=>{ console.log(e);   this.alertService.error('Something went wrong, contact us.', { keepAfterRouteChange: true });});
+    (e)=>{ console.log(e);     this.loadingIcon = false;
+      this.alertService.error('Something went wrong, contact us.', { keepAfterRouteChange: true });});
 
-    
+
 
   }
 
+  checkIfPlayerRegisteredInEvent(player_id, event_id)
+  {
+    const check = this.user.data.player_events.filter((r:any)=>{
+        return player_id === r.player_id && event_id === r.event_id;
+
+    })
+   // console.log('registration_check',check);
+    if(check[0]){ return true; }
+
+    return false;
+
+
+
+  }
+
+  registerPlayerInEvent(event)
+  {
+
+    //post request to register
+    this.eventRegisterLoadingCircle = true;
+    this.hideEventTable = true;
+    this.http.post(`${environment.apiUrl}wp-json/jwt-auth/v1/player/event`,
+    {"event_thing": {"player_id":this.player.id, "user_id": this.user.ID, "event_id": event.id}})
+    .subscribe((r:any)=>{
+
+      this.account.addPlayerEvent(r);
+      this.eventRegisterLoadingCircle = false;
+      this.hideEventTable = false;
+      this.alertService.success('Player registration successful for '+event.name+'. An email was sent to '+this.user.data.user_email, { keepAfterRouteChange: true });
+
+    });
+
+    //add to user to thing and update
+
+  }
 
   update_player()
   {

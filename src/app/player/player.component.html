@@ -1,6 +1,7 @@
 
 <div fxLayout="column" fxFill fxLayoutAlign="start center" fxLayoutGap="10px" >
 
+  <div  fxLayout="row" fxLayoutGap="10px">
 <mat-card fxFlex style="max-width: 800px;" fxLayout="column" >
   <mat-card-content fxLayout="column" fxLayoutGap="5px" fxFlex>
 
@@ -60,7 +61,7 @@
 
 
     </mat-form-field>
-  
+
     <mat-form-field >
       <mat-label>ZIP Code</mat-label>
 
@@ -109,16 +110,45 @@
     <button mat-button color="primary" *ngIf="!newPlayer">Update</button>
 </mat-card-actions>
 <mat-card-actions fxLayoutAlign="center center" [hidden]="!loadingIcon">
-  <mat-spinner></mat-spinner>
+  <mat-spinner  [diameter]="30" ></mat-spinner>
 </mat-card-actions>
 </mat-card>
 
 
 
 <mat-card id="registerEventCard" *ngIf="!newPlayer" fxFlex>
-  <mat-card-content fxLayout="row wrap" fxLayoutGap="5px">
+  <mat-card-content fxLayout="column"  fxLayoutAlign="center center" fxLayoutGap="5px">
       <h2>  Available Events </h2>
+
+
+
+      <mat-spinner [diameter]="30" *ngIf="!events[0]"></mat-spinner>
+      <mat-spinner [diameter]="30" *ngIf="eventRegisterLoadingCircle"></mat-spinner>
+
+      <table class="table" *ngIf="events[0]" [hidden]="hideEventTable">
+       <!--  <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col"> ? </th>
+          </tr>
+        </thead> -->
+        <tbody>
+
+
+
+          <tr  *ngFor="let event of events">
+            <th scope="row">{{event.name}}</th>
+            <td>{{event.type}}</td>
+            <td>
+              <button mat-raised-button *ngIf="!checkIfPlayerRegisteredInEvent(player.id,event.id)" (click)="registerPlayerInEvent(event)" color="primary">Register</button>
+              <mat-icon  *ngIf="checkIfPlayerRegisteredInEvent(player.id,event.id)"  matTooltip="{{player.first_name}} is registered in this event.">how_to_reg </mat-icon>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
   </mat-card-content>
 </mat-card>
-
+</div>
 </div>
