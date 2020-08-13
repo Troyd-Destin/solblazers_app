@@ -89,7 +89,7 @@
   <h4> Medical </h4>
 
   <mat-form-field  fxFlex>
-    <mat-label>Legal Name of Primary Insured</mat-label>
+    <mat-label>Legal First and Last Name of Primary Insured</mat-label>
     <input matInput type="text" name="primary_insured" [(ngModel)]="player.primary_insured" required />
 </mat-form-field>
   <mat-form-field  fxFlex>
@@ -100,7 +100,7 @@
   <mat-form-field  fxFlex=100>
     <mat-label>Medical Needs</mat-label>
      <textarea matInput name="medical_needs" [(ngModel)]="player.medical_needs" required ></textarea>
-     <mat-hint>Any specific medical needs we should be made aware of?</mat-hint>
+     <mat-hint>Any specific medical needs we should be made aware of? (type none, if none) </mat-hint>
   </mat-form-field>
 
   </mat-card-content>
@@ -148,6 +148,10 @@
 
         </tbody>
       </table>
+
+      <a  href="https://solblazers.org/donate/" target="_blank">
+        <img mat-card-image style="max-width:400px; margin-top:20px;" src="assets/purple_donate_grunge.png" alt="Photo of a Shiba Inu">
+      </a>
   </mat-card-content>
 </mat-card>
 </div>

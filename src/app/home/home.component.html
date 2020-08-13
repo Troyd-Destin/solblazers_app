@@ -109,7 +109,10 @@ Sol Blazers Lacrosse, Inc. is registered with the State of Florida to solicit co
             <tr  *ngFor="let event of events">
               <th scope="row">{{event.name}}</th>
               <td>{{event.type}}</td>
-              <td> <mat-icon  matTooltip="You have x players registered in this event.">how_to_reg </mat-icon> </td>
+              <td>
+                <button mat-raised-button  color="primary">Register</button>
+               <!--   <mat-icon  matTooltip="You have x players registered in this event.">how_to_reg </mat-icon> -->
+                </td>
             </tr>
 
           </tbody>
