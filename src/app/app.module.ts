@@ -27,6 +27,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { EventComponent } from './event/event.component'
 
 
 @NgModule({
@@ -49,7 +51,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
         MatDatepickerModule,
         MatNativeDateModule,
         MatCheckboxModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatSnackBarModule
 
     ],
     declarations: [
@@ -58,6 +61,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
         HomeComponent
 ,
         PlayerComponent
+,
+        EventComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

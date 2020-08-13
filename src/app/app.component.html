@@ -9,14 +9,18 @@
 
 <!-- main app container -->
 <div class="app-container" fxFill fxLayout="column" fxLayoutGap="10px" [ngClass]="{ 'bg-light': user }">
-    <div  class="banner_thing clickable" routerLink="/"  fxFlex fxLayoutAlign="center center" >
-      <img  src="assets/logo.png"  />
+    <div  class="banner_thing clickable" style="margin-bottom:0px;"  fxFlex fxLayoutAlign="center center" fxLayout="row">
+       <img  routerLink="/"   src="assets/logo.png"  />
+     <!--  <button mat-button>SolBlazers.org</button> -->
     </div>
     <alert></alert>
-    <router-outlet style="margin-top:10px;"  ></router-outlet>
+    <div style="margin-top:10px; overflow:auto;">    
+        <router-outlet   ></router-outlet>
+    </div>
 
-    <div fxLayout="row" fxLayoutAlign="center center" *ngIf="user">
-
+    <div fxLayout="row" fxLayoutAlign="center center" style="padding-top:5px !important; padding-bottom:5px !important;" fxLayoutGap="10px" *ngIf="user">
+        <button *ngIf="router.url !== '/' && router.url !=='/account/login' "   mat-raised-button routerLink="/"  color="primary">Home</button>
+        
       <button mat-raised-button color="basic" (click)="logout()"> Logout </button>
 
     </div>

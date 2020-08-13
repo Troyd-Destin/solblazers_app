@@ -60,7 +60,10 @@ Sol Blazers Lacrosse, Inc. is registered with the State of Florida to solicit co
               <tr *ngFor="let player of user.data.players" class="clickable" routerLink="/player/{{player.id}}">
                 <th >{{player.first_name}} {{player.last_name}}</th>
 
-                <td> <mat-icon  matTooltip="Edit this player">edit</mat-icon> </td>
+                <td> 
+                <!--   <mat-icon  matTooltip="Edit this player">edit</mat-icon> -->
+                  <button mat-raised-button  color="accent" >Edit</button>
+                </td>
               </tr>
 
             </tbody>
@@ -70,7 +73,7 @@ Sol Blazers Lacrosse, Inc. is registered with the State of Florida to solicit co
         <div *ngIf="!user.data.players[0]" >
             <p> No players have been registered. </p>
         </div>
-        <button mat-raised-button routerLink="/player/new" routerLinkActive="active" color="primary">Register Player </button>
+        <button mat-raised-button routerLink="/player/new" routerLinkActive="active" color="primary">Register New Player </button>
 
 
 
@@ -86,8 +89,8 @@ Sol Blazers Lacrosse, Inc. is registered with the State of Florida to solicit co
     <mat-card class="event-card" fxFlex>
       <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title>Events</mat-card-title>
-        <mat-card-subtitle>What events are active right now?</mat-card-subtitle>
+        <mat-card-title>Locations / Events</mat-card-title>
+        <mat-card-subtitle>Register for something!</mat-card-subtitle>
       </mat-card-header>
      <!--  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
       <mat-card-content fxLayoutAlign="center center">
@@ -95,13 +98,13 @@ Sol Blazers Lacrosse, Inc. is registered with the State of Florida to solicit co
         <mat-spinner [diameter]="30" *ngIf="!events[0]"></mat-spinner>
 
         <table class="table" *ngIf="events[0]">
-          <thead>
+       <!--    <thead>
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Type</th>
-              <th scope="col"> ? </th>
+              <th scope="col"> Actions </th>
             </tr>
-          </thead>
+          </thead> -->
           <tbody>
 
 
@@ -110,7 +113,7 @@ Sol Blazers Lacrosse, Inc. is registered with the State of Florida to solicit co
               <th scope="row">{{event.name}}</th>
               <td>{{event.type}}</td>
               <td>
-                <button mat-raised-button  color="primary">Register</button>
+                <button mat-raised-button  color="accent" routerLink="/event/{{event.id}}">Register</button>
                <!--   <mat-icon  matTooltip="You have x players registered in this event.">how_to_reg </mat-icon> -->
                 </td>
             </tr>
@@ -122,6 +125,24 @@ Sol Blazers Lacrosse, Inc. is registered with the State of Florida to solicit co
      <!--  <mat-card-actions>
         <button mat-button>LIKE</button>
         <button mat-button>SHARE</button>
+      </mat-card-actions> -->
+    </mat-card>
+
+
+    <mat-card id="Coaches Corner" class="event-card" fxFlex *ngIf="user.data.user_email.includes('solblazers.org') || user.data.user_email === 'trboyce@ualberta.ca'">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Coach Actions</mat-card-title>
+        <mat-card-subtitle> Administrative actions you can take as a coach or administrator. </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content fxLayout="column" fxLayoutAlign="start center">
+            <p> Player Lists </p>
+            <p> Event / Location Managment </p>
+            <p> Some other action only a coach can do </p>
+      
+
+      </mat-card-content>
+     <!--  <mat-card-actions>
       </mat-card-actions> -->
     </mat-card>
 
