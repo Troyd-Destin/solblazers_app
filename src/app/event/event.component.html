@@ -2,35 +2,94 @@
 <div fxLayout="column"  fxFill fxLayoutAlign="start center" fxLayoutGap="10px" >
 
 
-    <div  fxLayout="row" fxLayout.lt-lg="column" fxLayoutGap="10px">
+    <div  fxLayout="row" fxLayout.lt-lg="column" fxLayoutGap="10px" *ngIf="event?.name">
 
-        <mat-card fxFlex style="max-width: 800px;" fxLayout="column" >
-            <mat-card-content fxLayout="column" fxLayoutGap="5px" fxFlex>
+      <mat-card fxFlex style="max-width: 800px;" fxLayout="column" >
+        <mat-card-header>
+          <mat-card-title>{{event.name}}</mat-card-title>
+          <mat-card-subtitle>{{event.type}}</mat-card-subtitle>
+        </mat-card-header>
 
-                Stuff about the event goes here. 
-          
-            </mat-card-content>
-          
+
+
+
+          <mat-card-content fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px" fxFlex>
+
+            <p *ngIf="event.details"> {{event.details}} </p>
+            <p  *ngIf="!event.details"> This event has no details yet. </p>
+
+          </mat-card-content>
+
           <mat-card-actions fxLayout="row">
-        
+
           </mat-card-actions>
-        
-          </mat-card>
+
+      </mat-card>
 
 
           <mat-card fxFlex style="max-width: 800px;" fxLayout="column" >
-            <mat-card-content fxLayout="column" fxLayoutGap="5px" fxFlex>
+            <mat-card-header>
 
-                Player List and Register button.  
-          
+              <mat-card-title>Players</mat-card-title>
+              <mat-card-subtitle>Register a player for this event!</mat-card-subtitle>
+            </mat-card-header>
+
+
+
+            <mat-card-content fxLayout="column" fxLayoutAlign="center center">
+              <mat-spinner [diameter]="30" *ngIf="!events[0]"></mat-spinner>
+              <mat-spinner [diameter]="30" *ngIf="eventRegisterLoadingCircle"></mat-spinner>
+              <div *ngIf="user.data.players[0] && events[0]"  fxFlex [hidden]="hideEventTable">
+                <table class="table" >
+                 <!--  <thead>
+                    <tr>
+                      <th scope="col" style="width:70%">Name</th>
+                      <th scope="col"> Actions </th>
+                    </tr>
+                  </thead> -->
+                  <tbody>
+
+
+
+                    <tr *ngFor="let player of user.data.players" class="clickable">
+                      <td >{{player.jersey_number}}</td>
+                      <td >{{player.first_name}} {{player.last_name}}</td>
+
+                      <td>
+                      <!--   <mat-icon  matTooltip="Edit this player">edit</mat-icon> -->
+                        <button mat-raised-button *ngIf="!checkIfPlayerRegisteredInEvent(player.id,event.id)" (click)="registerPlayerInEvent(player)" color="primary">Register</button>
+                        <mat-icon  *ngIf="checkIfPlayerRegisteredInEvent(player.id,event.id)"  matTooltip="{{player.first_name}} is registered in this event.">how_to_reg </mat-icon>
+
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+
+              </div>
+              <div *ngIf="!user.data.players[0]" >
+                  <p> You have no players registered on this account. </p>
+              </div>
+
+              <div fxFlex>
+
+
+              <a  href="https://solblazers.org/donate/" target="_blank">
+                <img mat-card-image style="max-width:400px; margin-top:20px;" src="assets/purple_donate_grunge.png" alt="Photo of a Shiba Inu">
+              </a>
+             </div>
+
+
             </mat-card-content>
-          
+
           <mat-card-actions fxLayout="row">
-        
+
           </mat-card-actions>
-        
+
           </mat-card>
 
 
     </div>
-   <div> 
+
+    <mat-spinner [diameter]="50" *ngIf="!event?.name"></mat-spinner>
+   <div>

@@ -14,7 +14,7 @@ export class EventsService {
 
   constructor(  private http: HttpClient) {
 
-    this.eventsSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('user')));
+    this.eventsSubject = new BehaviorSubject<any>([]);
     this.events = this.eventsSubject.asObservable();
 
   }
@@ -25,7 +25,10 @@ export class EventsService {
 
   fetchEvents(){
 
-
+    if(this.eventsSubject.value[0])
+    {
+      console.log('testswteste');
+    }
     return this.http.get(`${environment.apiUrl}/wp-json/jwt-auth/v1/events `)
     .pipe(map((data:any) => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -34,6 +37,16 @@ export class EventsService {
         return data;
     }));
 
+  }
+
+  fetchEvent(id)
+  {
+    console.log(this.eventsSubject.value);
+    const search = this.eventsSubject.value.filter((r)=>{
+      return r.id === id;
+    })
+    console.log(id,'test',search);
+    return search[0];
   }
 
 }

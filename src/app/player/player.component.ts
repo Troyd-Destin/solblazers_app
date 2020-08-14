@@ -154,12 +154,12 @@ export class PlayerComponent implements OnInit {
 
         //update url
 
-        this.alertService.success('Player registration successful. ', { keepAfterRouteChange: true });
+        this.alertService.success('Player registration successful. ', { keepAfterRouteChange: false });
 
 
     },
     (e)=>{ console.log(e);     this.loadingIcon = false;
-      this.alertService.error('Something went wrong, contact us.', { keepAfterRouteChange: true });});
+      this.alertService.error('Something went wrong, contact us.', { keepAfterRouteChange: false });});
 
 
 
@@ -193,7 +193,7 @@ export class PlayerComponent implements OnInit {
       this.account.addPlayerEvent(r);
       this.eventRegisterLoadingCircle = false;
       this.hideEventTable = false;
-      this.alertService.success('Player registration successful for '+event.name+'. An email was sent to '+this.user.data.user_email, { keepAfterRouteChange: true });
+      this.alertService.success('Player registration successful for '+event.name+'. An email was sent to '+this.user.data.user_email, { keepAfterRouteChange: false });
 
     });
 
